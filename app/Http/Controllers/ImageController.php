@@ -68,8 +68,10 @@ class ImageController extends Controller
     public function deletePost(Request $request, $id) {
         $post = Post::find($id);
 
-        if(Storage::exists('public/posts/')){
-            Storage::delete($post->image);
+        $file_path = storage_path().'/app/'.$post['image'];
+
+        if(File::exists($file_path)) {
+            unlink($file_path);
         }
 
         if ($post->delete()) {
